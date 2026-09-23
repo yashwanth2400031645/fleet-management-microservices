@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 720" width="1000" height="720" font-family="Segoe UI, Arial, sans-serif">
+  <rect width="1000" height="720" fill="#ffffff"/>
+
+  <text x="500" y="42" text-anchor="middle" font-size="26" font-weight="700" fill="#1a2332">Logistics Fleet Management — Microservices Architecture</text>
+  <text x="500" y="68" text-anchor="middle" font-size="14" fill="#6b7785">Spring Boot · Spring Cloud · Netflix Eureka · Spring Cloud Gateway · OpenFeign · JWT · MySQL</text>
+
+  <!-- CLIENT -->
+  <rect x="390" y="96" width="220" height="52" rx="8" fill="#eef2f7" stroke="#c3ccd8" stroke-width="1.5"/>
+  <text x="500" y="121" text-anchor="middle" font-size="15" font-weight="600" fill="#1a2332">Client</text>
+  <text x="500" y="139" text-anchor="middle" font-size="12" fill="#6b7785">Browser · Swagger UI · Postman</text>
+
+  <!-- arrow client -> gateway -->
+  <line x1="500" y1="148" x2="500" y2="186" stroke="#8b96a5" stroke-width="2" marker-end="url(#ar)"/>
+  <text x="512" y="172" font-size="11" fill="#6b7785">HTTPS + Bearer JWT</text>
+
+  <!-- GATEWAY -->
+  <rect x="250" y="188" width="500" height="92" rx="10" fill="#e8f0fe" stroke="#3b7dd8" stroke-width="2"/>
+  <text x="500" y="212" text-anchor="middle" font-size="16" font-weight="700" fill="#1a4f9c">API GATEWAY  ·  port 8080</text>
+  <text x="500" y="233" text-anchor="middle" font-size="12" fill="#2c5ca0">Single entry point — the only port exposed to clients</text>
+  <text x="500" y="252" text-anchor="middle" font-size="11.5" fill="#42618f">JWT validation · role headers · rate limiting (120/min) · CORS · routing</text>
+  <text x="500" y="270" text-anchor="middle" font-size="11.5" fill="#42618f">Aggregated Swagger UI · project landing page</text>
+
+  <!-- EUREKA -->
+  <rect x="775" y="188" width="195" height="92" rx="10" fill="#fff4e5" stroke="#e08c1a" stroke-width="2"/>
+  <text x="872" y="214" text-anchor="middle" font-size="14" font-weight="700" fill="#9c5c00">EUREKA SERVER</text>
+  <text x="872" y="233" text-anchor="middle" font-size="12" fill="#9c5c00">port 8761</text>
+  <text x="872" y="253" text-anchor="middle" font-size="11" fill="#a86c1c">Service registry —</text>
+  <text x="872" y="268" text-anchor="middle" font-size="11" fill="#a86c1c">every service registers here</text>
+
+  <line x1="750" y1="222" x2="773" y2="222" stroke="#e08c1a" stroke-width="1.8" stroke-dasharray="4 3" marker-end="url(#aro)"/>
+  <text x="762" y="214" text-anchor="middle" font-size="9" fill="#a86c1c"> </text>
+
+  <!-- identity headers note -->
+  <rect x="30" y="196" width="200" height="76" rx="8" fill="#f6f7f9" stroke="#d4dae2" stroke-width="1"/>
+  <text x="130" y="216" text-anchor="middle" font-size="11.5" font-weight="700" fill="#44505f">After validating the token</text>
+  <text x="130" y="234" text-anchor="middle" font-size="10.5" fill="#6b7785">X-User-Id</text>
+  <text x="130" y="249" text-anchor="middle" font-size="10.5" fill="#6b7785">X-Username</text>
+  <text x="130" y="264" text-anchor="middle" font-size="10.5" fill="#6b7785">X-User-Role</text>
+  <line x1="230" y1="234" x2="248" y2="234" stroke="#8b96a5" stroke-width="1.5" marker-end="url(#ar)"/>
+
+  <!-- routes row -->
+  <line x1="150" y1="300" x2="850" y2="300" stroke="none"/>
+  <g font-size="10.5" fill="#6b7785" text-anchor="middle">
+    <text x="150" y="322">/api/auth/**</text>
+    <text x="383" y="322">/api/vehicles/**</text>
+    <text x="617" y="322">/api/trips/**</text>
+    <text x="850" y="322">/api/maintenance/**</text>
+  </g>
+
+  <!-- arrows gateway -> services -->
+  <g stroke="#8b96a5" stroke-width="2" fill="none">
+    <path d="M 420 280 L 420 292 L 150 292 L 150 336" marker-end="url(#ar)"/>
+    <path d="M 460 280 L 460 292 L 383 292 L 383 336" marker-end="url(#ar)"/>
+    <path d="M 540 280 L 540 292 L 617 292 L 617 336" marker-end="url(#ar)"/>
+    <path d="M 580 280 L 580 292 L 850 292 L 850 336" marker-end="url(#ar)"/>
+  </g>
+
+  <!-- SERVICES -->
+  <g>
+    <rect x="52" y="338" width="196" height="108" rx="10" fill="#eaf7ee" stroke="#3a9d5d" stroke-width="2"/>
+    <text x="150" y="362" text-anchor="middle" font-size="14" font-weight="700" fill="#1f6b3a">AUTH SERVICE</text>
+    <text x="150" y="380" text-anchor="middle" font-size="11.5" fill="#2f7d49">port 8081</text>
+    <text x="150" y="402" text-anchor="middle" font-size="11" fill="#3f6b51">Register · Login</text>
+    <text x="150" y="418" text-anchor="middle" font-size="11" fill="#3f6b51">JWT issuing · BCrypt</text>
+    <text x="150" y="435" text-anchor="middle" font-size="10.5" fill="#5b7a67">User (ADMIN/DISPATCHER/DRIVER)</text>
+  </g>
+  <g>
+    <rect x="285" y="338" width="196" height="108" rx="10" fill="#eaf7ee" stroke="#3a9d5d" stroke-width="2"/>
+    <text x="383" y="362" text-anchor="middle" font-size="14" font-weight="700" fill="#1f6b3a">VEHICLE SERVICE</text>
+    <text x="383" y="380" text-anchor="middle" font-size="11.5" fill="#2f7d49">port 8082</text>
+    <text x="383" y="402" text-anchor="middle" font-size="11" fill="#3f6b51">Inventory · status · location</text>
+    <text x="383" y="419" text-anchor="middle" font-size="10.5" fill="#5b7a67">AVAILABLE · ON_TRIP</text>
+    <text x="383" y="434" text-anchor="middle" font-size="10.5" fill="#5b7a67">UNDER_MAINTENANCE · OUT_OF_SERVICE</text>
+  </g>
+  <g>
+    <rect x="519" y="338" width="196" height="108" rx="10" fill="#eaf7ee" stroke="#3a9d5d" stroke-width="2"/>
+    <text x="617" y="362" text-anchor="middle" font-size="14" font-weight="700" fill="#1f6b3a">TRIP SERVICE</text>
+    <text x="617" y="380" text-anchor="middle" font-size="11.5" fill="#2f7d49">port 8083</text>
+    <text x="617" y="402" text-anchor="middle" font-size="11" fill="#3f6b51">Schedule · start · complete</text>
+    <text x="617" y="419" text-anchor="middle" font-size="10.5" fill="#5b7a67">SCHEDULED · IN_PROGRESS</text>
+    <text x="617" y="434" text-anchor="middle" font-size="10.5" fill="#5b7a67">COMPLETED · CANCELLED</text>
+  </g>
+  <g>
+    <rect x="752" y="338" width="196" height="108" rx="10" fill="#eaf7ee" stroke="#3a9d5d" stroke-width="2"/>
+    <text x="850" y="362" text-anchor="middle" font-size="14" font-weight="700" fill="#1f6b3a">MAINTENANCE SVC</text>
+    <text x="850" y="380" text-anchor="middle" font-size="11.5" fill="#2f7d49">port 8084</text>
+    <text x="850" y="402" text-anchor="middle" font-size="11" fill="#3f6b51">Fault tickets · repairs</text>
+    <text x="850" y="419" text-anchor="middle" font-size="10.5" fill="#5b7a67">REPORTED · IN_REPAIR</text>
+    <text x="850" y="434" text-anchor="middle" font-size="10.5" fill="#5b7a67">RESOLVED · CANCELLED</text>
+  </g>
+
+  <!-- FEIGN links -->
+  <path d="M 617 446 L 617 470 L 460 470 L 460 452" stroke="#c2410c" stroke-width="2" fill="none" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+  <path d="M 850 446 L 850 492 L 420 492 L 420 452" stroke="#c2410c" stroke-width="2" fill="none" stroke-dasharray="6 4" marker-end="url(#arr)"/>
+  <rect x="470" y="462" width="230" height="20" rx="4" fill="#ffffff"/>
+  <text x="585" y="477" text-anchor="middle" font-size="11" font-weight="600" fill="#c2410c">OpenFeign — calls by service NAME</text>
+  <text x="585" y="507" text-anchor="middle" font-size="10.5" fill="#c2410c">lb://vehicle-service  ·  resolved through Eureka  ·  circuit breaker + fallback</text>
+
+  <!-- DATABASES -->
+  <g fill="#f3eefc" stroke="#7c4dbe" stroke-width="1.8">
+    <rect x="52" y="546" width="196" height="54" rx="8"/>
+    <rect x="285" y="546" width="196" height="54" rx="8"/>
+    <rect x="519" y="546" width="196" height="54" rx="8"/>
+    <rect x="752" y="546" width="196" height="54" rx="8"/>
+  </g>
+  <g text-anchor="middle" font-size="12" font-weight="600" fill="#553091">
+    <text x="150" y="570">MySQL · fleet_auth</text>
+    <text x="383" y="570">MySQL · fleet_vehicle</text>
+    <text x="617" y="570">MySQL · fleet_trip</text>
+    <text x="850" y="570">MySQL · fleet_maintenance</text>
+  </g>
+  <g text-anchor="middle" font-size="10.5" fill="#6f5a9c">
+    <text x="150" y="589">users</text>
+    <text x="383" y="589">vehicles</text>
+    <text x="617" y="589">trips</text>
+    <text x="850" y="589">maintenance_records</text>
+  </g>
+
+  <g stroke="#7c4dbe" stroke-width="1.8">
+    <line x1="150" y1="520" x2="150" y2="544" marker-end="url(#arp)"/>
+    <line x1="383" y1="520" x2="383" y2="544" marker-end="url(#arp)"/>
+    <line x1="617" y1="520" x2="617" y2="544" marker-end="url(#arp)"/>
+    <line x1="850" y1="520" x2="850" y2="544" marker-end="url(#arp)"/>
+  </g>
+
+  <text x="500" y="628" text-anchor="middle" font-size="12.5" font-weight="600" fill="#553091">Database per service — no service reads another service's tables</text>
+
+  <!-- legend -->
+  <g font-size="11" fill="#6b7785">
+    <line x1="290" y1="660" x2="325" y2="660" stroke="#8b96a5" stroke-width="2"/>
+    <text x="332" y="664">HTTP request routing</text>
+    <line x1="470" y1="660" x2="505" y2="660" stroke="#c2410c" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="512" y="664">Inter-service call (OpenFeign)</text>
+    <line x1="700" y1="660" x2="735" y2="660" stroke="#e08c1a" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="742" y="664">Service registration</text>
+  </g>
+  <text x="500" y="694" text-anchor="middle" font-size="11" fill="#9aa4b1">All services register with Eureka on startup — no host or port is hardcoded anywhere in the codebase</text>
+
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto">
+      <path d="M0,0 L0,6.4 L8,3.2 z" fill="#8b96a5"/>
+    </marker>
+    <marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto">
+      <path d="M0,0 L0,6.4 L8,3.2 z" fill="#c2410c"/>
+    </marker>
+    <marker id="aro" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto">
+      <path d="M0,0 L0,6.4 L8,3.2 z" fill="#e08c1a"/>
+    </marker>
+    <marker id="arp" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto">
+      <path d="M0,0 L0,6.4 L8,3.2 z" fill="#7c4dbe"/>
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,78 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: trip-service
+  datasource:
+    url: jdbc:mysql://${DB_HOST:localhost}:${DB_PORT:3306}/fleet_trip?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${DB_USERNAME:root}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update   # dev convenience; switch to validate + Flyway/Liquibase for prod
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  cloud:
+    openfeign:
+      # Wraps every Feign call in a resilience4j circuit breaker. After a burst of
+      # failures the circuit opens and calls fail fast into VehicleClientFallback
+      # instead of piling up threads against a service that is already down.
+      circuitbreaker:
+        enabled: true
+      httpclient:
+        hc5:
+          enabled: true   # PATCH is unsupported by Feign's default HttpURLConnection client
+      client:
+        config:
+          # Timeouts keep a slow vehicle-service from pinning trip-service threads.
+          default:
+            connect-timeout: 3000
+            read-timeout: 5000
+            logger-level: basic
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${EUREKA_HOST:localhost}:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 10
+        minimum-number-of-calls: 5      # do not judge the service on one bad call
+        failure-rate-threshold: 50      # open once half of the recent calls fail
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+    instances:
+      VehicleClient:
+        base-config: default
+  timelimiter:
+    configs:
+      default:
+        timeout-duration: 6s            # must exceed the Feign read timeout (5s)
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    com.commercial.fleet.telematics: INFO
+    org.springframework.security: WARN

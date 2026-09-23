@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fleet Management System</title>
+<style>
+	:root {
+		--bg: #0e1116;
+		--panel: #161b22;
+		--panel-2: #1c2128;
+		--border: #2b323b;
+		--text: #e6edf3;
+		--muted: #8b949e;
+		--accent: #4493f8;
+		--green: #3fb950;
+		--red: #f85149;
+		--amber: #d29922;
+		--mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+	}
+	* { box-sizing: border-box; }
+	body {
+		margin: 0; background: var(--bg); color: var(--text);
+		font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
+		line-height: 1.6;
+	}
+	.wrap { max-width: 1100px; margin: 0 auto; padding: 32px 16px 64px; }
+
+	header { border-bottom: 1px solid var(--border); padding-bottom: 24px; margin-bottom: 32px; }
+	h1 { margin: 0 0 6px; font-size: 28px; letter-spacing: -0.02em; }
+	.sub { color: var(--muted); margin: 0; }
+	.stack { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+	.chip {
+		font-size: 12px; font-family: var(--mono); color: var(--muted);
+		border: 1px solid var(--border); border-radius: 99px; padding: 2px 10px;
+	}
+
+	h2 { font-size: 15px; text-transform: uppercase; letter-spacing: 0.08em;
+	     color: var(--muted); margin: 40px 0 14px; font-weight: 600; }
+
+	.links { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; }
+	a.card {
+		display: block; text-decoration: none; color: inherit;
+		background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+		padding: 16px 18px; transition: border-color .15s, transform .15s;
+	}
+	a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
+	a.card .t { font-weight: 600; margin-bottom: 2px; }
+	a.card .d { color: var(--muted); font-size: 13px; }
+
+	table { width: 100%; border-collapse: collapse; background: var(--panel);
+	        border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+	th, td { text-align: left; padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: 14px; }
+	th { background: var(--panel-2); color: var(--muted); font-weight: 600;
+	     font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+	tr:last-child td { border-bottom: none; }
+	code, .mono { font-family: var(--mono); font-size: 13px; }
+
+	.dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+	       margin-right: 7px; background: var(--muted); vertical-align: middle; }
+	.dot.up { background: var(--green); box-shadow: 0 0 0 3px rgba(63,185,80,.15); }
+	.dot.down { background: var(--red); box-shadow: 0 0 0 3px rgba(248,81,73,.15); }
+	.st { color: var(--muted); font-size: 13px; }
+	.st.up { color: var(--green); }
+	.st.down { color: var(--red); }
+
+	.flow { background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+	        padding: 20px; overflow-x: auto; }
+	.flow pre { margin: 0; font-family: var(--mono); font-size: 13px; color: var(--muted); line-height: 1.7; }
+	.flow pre b { color: var(--accent); font-weight: 600; }
+
+	.note { background: var(--panel-2); border-left: 3px solid var(--amber);
+	        padding: 12px 16px; border-radius: 0 8px 8px 0; color: var(--muted); font-size: 14px; }
+	.m { font-family: var(--mono); font-size: 12px; padding: 2px 6px;
+	     border-radius: 4px; background: var(--panel-2); border: 1px solid var(--border); }
+	footer { margin-top: 48px; padding-top: 20px; border-top: 1px solid var(--border);
+	         color: var(--muted); font-size: 13px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+	<header>
+		<h1>Logistics Fleet Management</h1>
+		<p class="sub">Spring Boot microservices &mdash; service discovery, API gateway, JWT security and inter-service communication.</p>
+		<div class="stack">
+			<span class="chip">Spring Boot 4.1.1</span>
+			<span class="chip">Spring Cloud 2025.1.3</span>
+			<span class="chip">Netflix Eureka</span>
+			<span class="chip">Spring Cloud Gateway</span>
+			<span class="chip">OpenFeign</span>
+			<span class="chip">Spring Security + JWT</span>
+			<span class="chip">Spring Data JPA</span>
+			<span class="chip">MySQL</span>
+		</div>
+	</header>
+
+	<h2>Open</h2>
+	<div class="links">
+		<a class="card" href="/swagger-ui.html">
+			<div class="t">Swagger UI &rarr;</div>
+			<div class="d">Browse and call all four APIs. Log in, authorize, try endpoints.</div>
+		</a>
+		<a class="card" href="http://localhost:8761" target="_blank" rel="noopener">
+			<div class="t">Eureka Dashboard &rarr;</div>
+			<div class="d">Live service registry with every registered instance.</div>
+		</a>
+		<a class="card" href="/actuator/health">
+			<div class="t">Gateway Health &rarr;</div>
+			<div class="d">Actuator health endpoint for the gateway.</div>
+		</a>
+	</div>
+
+	<h2>Services</h2>
+	<table>
+		<thead>
+			<tr><th>Service</th><th>Port</th><th>Database</th><th>Responsibility</th><th>Status</th></tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><span class="dot" id="d-eureka"></span><b>eureka-server</b></td>
+				<td class="mono">8761</td><td class="st">&mdash;</td>
+				<td>Service registry</td>
+				<td class="st" id="s-eureka">checking</td>
+			</tr>
+			<tr>
+				<td><span class="dot up"></span><b>api-gateway</b></td>
+				<td class="mono">8080</td><td class="st">&mdash;</td>
+				<td>Routing, JWT validation, Swagger</td>
+				<td class="st up">up</td>
+			</tr>
+			<tr>
+				<td><span class="dot" id="d-auth"></span><b>auth-service</b></td>
+				<td class="mono">8081</td><td class="mono">fleet_auth</td>
+				<td>Registration, login, token issuing</td>
+				<td class="st" id="s-auth">checking</td>
+			</tr>
+			<tr>
+				<td><span class="dot" id="d-vehicles"></span><b>vehicle-service</b></td>
+				<td class="mono">8082</td><td class="mono">fleet_vehicle</td>
+				<td>Vehicle inventory, status, location</td>
+				<td class="st" id="s-vehicles">checking</td>
+			</tr>
+			<tr>
+				<td><span class="dot" id="d-trips"></span><b>trip-service</b></td>
+				<td class="mono">8083</td><td class="mono">fleet_trip</td>
+				<td>Trip scheduling and lifecycle</td>
+				<td class="st" id="s-trips">checking</td>
+			</tr>
+			<tr>
+				<td><span class="dot" id="d-maintenance"></span><b>maintenance-service</b></td>
+				<td class="mono">8084</td><td class="mono">fleet_maintenance</td>
+				<td>Maintenance tickets and repairs</td>
+				<td class="st" id="s-maintenance">checking</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h2>How a request flows</h2>
+	<div class="flow">
+<pre>  Client
+    |  Authorization: Bearer &lt;JWT&gt;
+    v
+  <b>API Gateway :8080</b>
+    |  validates the signature, rejects anything invalid with 401
+    |  replaces client headers with X-User-Id / X-Username / X-User-Role
+    |  resolves lb://trip-service through Eureka
+    v
+  <b>Trip Service :8083</b>
+    |  trusts the gateway headers, enforces roles with @PreAuthorize
+    |  needs the vehicle marked ON_TRIP
+    |  calls vehicle-service by name over OpenFeign (no host, no port)
+    v
+  <b>Vehicle Service :8082</b>
+       checks the status transition is legal, updates its own database</pre>
+	</div>
+
+	<h2>Domain model</h2>
+	<table>
+		<thead><tr><th>Entity</th><th>Service</th><th>Key fields</th><th>States</th></tr></thead>
+		<tbody>
+			<tr><td><b>Vehicle</b></td><td>vehicle-service</td>
+				<td class="mono">vehicle_id, type, status, location</td>
+				<td class="st">AVAILABLE &middot; ON_TRIP &middot; UNDER_MAINTENANCE &middot; OUT_OF_SERVICE</td></tr>
+			<tr><td><b>Trip</b></td><td>trip-service</td>
+				<td class="mono">trip_id, vehicle_id, driver_id, trip_status</td>
+				<td class="st">SCHEDULED &middot; IN_PROGRESS &middot; COMPLETED &middot; CANCELLED</td></tr>
+			<tr><td><b>Maintenance</b></td><td>maintenance-service</td>
+				<td class="mono">maintenance_id, vehicle_id, issue, status</td>
+				<td class="st">REPORTED &middot; IN_REPAIR &middot; RESOLVED &middot; CANCELLED</td></tr>
+			<tr><td><b>User</b></td><td>auth-service</td>
+				<td class="mono">user_id, username, password, role</td>
+				<td class="st">ADMIN &middot; DISPATCHER &middot; DRIVER</td></tr>
+		</tbody>
+	</table>
+	<p class="note" style="margin-top:14px">
+		Each service owns its own schema. Cross-service references such as
+		<span class="m">vehicle_id</span> on a trip are plain columns, never JPA relationships &mdash;
+		a trip reads vehicle data by calling vehicle-service, not by joining to it.
+	</p>
+
+	<h2>Routes</h2>
+	<table>
+		<thead><tr><th>Path</th><th>Goes to</th><th>Token required</th></tr></thead>
+		<tbody>
+			<tr><td><code>/api/auth/**</code></td><td class="mono">lb://auth-service</td>
+				<td class="st">no for <span class="m">/login</span> and <span class="m">/register</span></td></tr>
+			<tr><td><code>/api/vehicles/**</code></td><td class="mono">lb://vehicle-service</td><td class="st">yes</td></tr>
+			<tr><td><code>/api/trips/**</code></td><td class="mono">lb://trip-service</td><td class="st">yes</td></tr>
+			<tr><td><code>/api/maintenance/**</code></td><td class="mono">lb://maintenance-service</td><td class="st">yes</td></tr>
+		</tbody>
+	</table>
+
+	<footer>
+		Group ID <span class="m">com.commercial.fleet.telematics</span> &middot;
+		six Maven modules &middot; this page is served by the API gateway from
+		<span class="m">api-gateway/src/main/resources/static/index.html</span>
+	</footer>
+
+</div>
+
+<script>
+	// Each service's /actuator/health is reachable through a gateway route,
+	// which keeps these checks same-origin (no CORS setup needed).
+	const checks = {
+		auth: '/status/auth',
+		vehicles: '/status/vehicles',
+		trips: '/status/trips',
+		maintenance: '/status/maintenance'
+	};
+
+	function paint(key, up) {
+		const dot = document.getElementById('d-' + key);
+		const txt = document.getElementById('s-' + key);
+		if (!dot || !txt) return;
+		dot.className = 'dot ' + (up ? 'up' : 'down');
+		txt.className = 'st ' + (up ? 'up' : 'down');
+		txt.textContent = up ? 'up' : 'down';
+	}
+
+	async function refresh() {
+		for (const [key, url] of Object.entries(checks)) {
+			try {
+				const r = await fetch(url, { cache: 'no-store' });
+				const body = await r.json();
+				paint(key, r.ok && body.status === 'UP');
+			} catch (e) {
+				paint(key, false);
+			}
+		}
+		// The registry is not a Eureka client, so check it through the gateway too.
+		try {
+			const r = await fetch('/status/eureka', { cache: 'no-store' });
+			paint('eureka', r.ok);
+		} catch (e) {
+			paint('eureka', false);
+		}
+	}
+
+	refresh();
+	setInterval(refresh, 15000);
+</script>
+</body>
+</html>
