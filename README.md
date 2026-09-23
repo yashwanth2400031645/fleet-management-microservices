@@ -2,6 +2,17 @@
 
 Logistics fleet management platform built with Spring Boot 4.1.1 and Spring Cloud 2025.1.3.
 
+## Team
+
+| Member | Area |
+|---|---|
+| Yashwanth | API Gateway, Eureka service discovery, routing and edge security |
+| Bhavani Shankar | Auth Service, JWT authentication, role-based authorization |
+| Sai Charan | Vehicle, Trip and Maintenance services, OpenFeign integration |
+
+Course: Service Oriented Architecture — Skill Development Project, KL University
+
+
 ## Modules
 
 | Module | Port | Database | Purpose |
